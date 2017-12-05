@@ -1,2 +1,134 @@
+#include "user32.as"
 
-exec "privacy.bat"
+// 画像オリジナルの大きさ
+PIC_W = 298
+PIC_H = 284
+
+// アイコンの大きさ
+ICON_W = 300
+ICON_H = 285
+
+dim positions, 13, 13
+gosub *init_positions // positionsを初期化する
+gosub *init_window
+
+onclick gosub *windowClicked
+
+repeat
+	gsel 0
+	redraw 0
+	
+	color 255, 255, 255
+	boxf
+	
+	x_num = ginfo_winx / ICON_W
+	
+	repeat 13
+		pos (cnt \ x_num) * ICON_W, (cnt / x_num) * ICON_H
+		gzoom ICON_W, ICON_H, positions(x_num - 1, cnt) + 1, 0, 0, PIC_W, PIC_H
+	loop
+	
+	redraw 1
+	
+	await 100
+loop
+
+stop
+
+
+
+*windowClicked
+	
+	return
+
+
+
+*init_window
+	screen 0, ginfo(20), ginfo(21)
+
+	GetWindowLong hwnd, -16
+	SetWindowLong hwnd, -16, stat | $10000 | $40000
+	
+	width ICON_W * 5 + 16, ICON_H * 3 + 16
+
+	// 画像の読み込みと表示
+	repeat 13
+		buffer cnt + 1
+		picload "img\\" + cnt + ".png"
+		gsel 0
+		pos (cnt \ 5) * ICON_W, (cnt / 5) * ICON_H
+		gzoom ICON_W, ICON_H, cnt + 1, 0, 0, PIC_W, PIC_H
+	loop
+	
+	return
+
+
+
+*init_positions
+	positions_13 = 0,1,2,3,4,11,10,12,9,8,7,6,5
+	positions_12 = 0,1,2,3,4,11,10,12,9,8,7,6,5
+	positions_11 = 0,1,2,3,4,11,10,12,9,8,7,5,6
+	positions_10 = 0,1,2,3,4,11,10,12,9,8,5,6,7
+	positions_9 = 0,1,2,3,4,11,10,12,9,5,6,7,8
+	positions_8 = 0,1,2,3,4,11,10,12,5,6,7,8,9
+	positions_7 = 0,1,2,3,4,11,10,5,6,7,8,9,12
+	positions_6 = 0,1,2,3,4,11,5,6,7,8,9,12,10
+	positions_5 = 0,1,2,3,4,5,6,7,8,9,10,11,12
+	positions_4 = 0,1,2,3,5,6,7,8,10,11,12,4,9
+	positions_3 = 0,1,2,5,6,7,10,11,12,9,3,8,4
+	positions_2 = 0,1,5,6,10,11,9,3,4,2,7,12,8
+	positions_1 = 0,5,10,9,4,7,8,1,6,11,3,2,12
+	
+	repeat 13
+		positions(12, cnt) = positions_13(cnt)
+	loop
+	
+	repeat 13
+		positions(11, cnt) = positions_12(cnt)
+	loop
+	
+	repeat 13
+		positions(10, cnt) = positions_11(cnt)
+	loop
+	
+	repeat 13
+		positions(9, cnt) = positions_10(cnt)
+	loop
+	
+	repeat 13
+		positions(8, cnt) = positions_9(cnt)
+	loop
+	
+	repeat 13
+		positions(7, cnt) = positions_8(cnt)
+	loop
+	
+	repeat 13
+		positions(6, cnt) = positions_7(cnt)
+	loop
+	
+	repeat 13
+		positions(5, cnt) = positions_6(cnt)
+	loop
+	
+	repeat 13
+		positions(4, cnt) = positions_5(cnt)
+	loop
+	
+	repeat 13
+		positions(3, cnt) = positions_4(cnt)
+	loop
+	
+	repeat 13
+		positions(2, cnt) = positions_3(cnt)
+	loop
+	
+	repeat 13
+		positions(1, cnt) = positions_2(cnt)
+	loop
+	
+	repeat 13
+		positions(0, cnt) = positions_1(cnt)
+	loop
+	
+	return
