@@ -14,7 +14,7 @@ BAR_SIZE = 16
 // ‰¡‚É•À‚ÔƒAƒCƒRƒ“‚ÌŒÂ”
 x_num = 5
 
-settings = "display", "bluetooth", "privacy-phonecall", "network-ethernet", "personalization", "appsfeatures", "yourinfo", "dateandtime", "gaming-gamebar", "easeofaccess-narrator", "cortana", "privacy", "windowsupdate", "personalization"
+settings = "display", "bluetooth", "mobile-devices", "network-status", "personalization", "appsfeatures", "yourinfo", "dateandtime", "gaming-gamebar", "easeofaccess-narrator", "cortana", "privacy", "windowsupdate", "personalization"
 dim positions, 13, 13
 gosub *init_positions // positions‚ğ‰Šú‰»‚·‚é
 gosub *init_window

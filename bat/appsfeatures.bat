@@ -1,1 +1,1 @@
-start ms-settings:apsfeatures
+start ms-settings:appsfeatures
