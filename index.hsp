@@ -8,6 +8,10 @@ PIC_H = 284
 ICON_W = 300
 ICON_H = 285
 
+// 横に並ぶアイコンの個数
+x_num = 5
+
+settings = "display", "bluetooth", "privacy-phonecall", "network-ethernet", "personalization", "appsfeatures", "yourinfo", "dateandtime", "gaming-gamebar", "easeofaccess-narrator", "cortana", "privacy", "windowsupdate", "personalization"
 dim positions, 13, 13
 gosub *init_positions // positionsを初期化する
 gosub *init_window
@@ -38,6 +42,17 @@ stop
 
 
 *windowClicked
+	x = mousex / ICON_W
+	y = mousey / ICON_H
+	
+	if (x + y * x_num >= 13) {
+		return
+	}
+	
+	icon_num = positions(x_num - 1, x + y * x_num) // クリックされたアイコンの番号
+	
+	dialog("bat\\" + settings(icon_num) + ".bat")
+	exec "bat\\" + settings(icon_num) + ".bat"
 	
 	return
 
