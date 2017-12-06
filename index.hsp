@@ -1,5 +1,5 @@
-#include "user32.as"
 #include "./lib/ScrollBar.hsp"
+#include "user32.as"
 
 // 画像オリジナルの大きさ
 PIC_W = 298
@@ -9,6 +9,8 @@ PIC_H = 284
 ICON_W = 300
 ICON_H = 285
 
+BAR_SIZE = 16
+
 // 横に並ぶアイコンの個数
 x_num = 5
 
@@ -16,6 +18,7 @@ settings = "display", "bluetooth", "privacy-phonecall", "network-ethernet", "per
 dim positions, 13, 13
 gosub *init_positions // positionsを初期化する
 gosub *init_window
+gosub *putYScrollBar
 
 onclick gosub *windowClicked
 
@@ -34,6 +37,8 @@ repeat
 	loop
 	
 	redraw 1
+	
+	gosub *putYScrollBar
 	
 	await 100
 loop
@@ -147,4 +152,35 @@ stop
 		positions(0, cnt) = positions_1(cnt)
 	loop
 	
+	return
+	
+
+
+*putYScrollBar
+	gsel 0
+	
+	pos ginfo_winx - BAR_SIZE, 0
+	ScrollBar_Create BAR_SIZE, ginfo_winy, 1
+	y_bar_id = stat
+	
+	y_num = 3
+	if (13 \ x_num == 0) {
+		y_num = 13 / x_num
+	} else {
+		y_num = 13 / x_num + 1
+	}
+	
+	ScrollBar_SetRange y_bar_id, 0, y_num * ICON_H, ginfo_winy
+	ScrollBar_SetStep y_bar_id, ginfo_winy / 4, ginfo_winy
+	ScrollBar_SetPos y_bar_id, 0
+	
+	ScrollBar_SetSubLabel *getYScroll
+	return
+	
+
+
+*getYScroll
+	gsel 0
+    groll 0, ScrollBar_GetPos(y_bar_id)
+    title "x_scroll" + str(ginfo_vx) + "y_scroll:" + str(ginfo_vy) // デバッグ用：タイトルにスクロール量が表示される
 	return
