@@ -52,7 +52,7 @@ stop
 	
 	icon_num = positions(x_num - 1, x + y * x_num) // クリックされたアイコンの番号
 	
-	dialog("bat\\" + settings(icon_num) + ".bat")
+	// dialog("bat\\" + settings(icon_num) + ".bat")
 	exec "bat\\" + settings(icon_num) + ".bat"
 	
 	return
