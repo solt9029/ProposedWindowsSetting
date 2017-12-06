@@ -18,6 +18,8 @@ settings = "display", "bluetooth", "mobile-devices", "network-status", "personal
 dim positions, 13, 13
 gosub *init_positions // positionsを初期化する
 gosub *init_window
+
+y_bar_id = 0 
 gosub *putYScrollBar
 
 onclick gosub *windowClicked
@@ -38,8 +40,6 @@ repeat
 	
 	redraw 1
 	
-	gosub *putYScrollBar
-	
 	await 100
 loop
 
@@ -57,7 +57,7 @@ stop
 	
 	icon_num = positions(x_num - 1, x + y * x_num) // クリックされたアイコンの番号
 	
-	dialog("bat\\" + settings(icon_num) + ".bat")
+	// dialog("bat\\" + settings(icon_num) + ".bat")
 	exec "bat\\" + settings(icon_num) + ".bat"
 	
 	return
@@ -70,7 +70,7 @@ stop
 	GetWindowLong hwnd, -16
 	SetWindowLong hwnd, -16, stat | $10000 | $40000
 	
-	width ICON_W * 5 + 16, ICON_H * 3 + 16
+	width ICON_W * 5 + 16, ICON_H  + 16
 
 	// 画像の読み込みと表示
 	repeat 13
