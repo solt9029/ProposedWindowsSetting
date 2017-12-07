@@ -60,6 +60,8 @@ repeat
 	prev_ginfo_winy = ginfo_winy
 	prev_ginfo_winx = ginfo_winx
 	
+	gosub *getYScroll
+	
 	await 100
 loop
 
@@ -184,3 +186,12 @@ stop
     groll 0, ScrollBar_GetPos(y_bar_id)
     title "x_scroll" + str(ginfo_vx) + "y_scroll:" + str(ginfo_vy) // デバッグ用：タイトルにスクロール量が表示される
 	return
+	
+
+/*
+*watchYScroll
+	repeat
+		await 10
+		gosub *getYScroll
+	loop
+	return*/
