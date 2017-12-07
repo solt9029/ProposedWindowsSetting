@@ -6,12 +6,12 @@
 #define ctype HIWORD(%1) (%1 >> 16 & $FFFF)
 
 // 画像オリジナルの大きさ
-PIC_W = 298
-PIC_H = 284
+PIC_W = 298.0 * 0.7
+PIC_H = 284.0 * 0.7
 
 // アイコンの大きさ
-ICON_W = 300.0 / 1.6
-ICON_H = 285.0 / 1.6
+ICON_W = 300.0 * 0.7
+ICON_H = 285.0 * 0.7
 
 BAR_SIZE = 16
 
