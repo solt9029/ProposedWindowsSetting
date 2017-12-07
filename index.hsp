@@ -1,6 +1,10 @@
 #include "./lib/ScrollBar.hsp"
 #include "user32.as"
 
+// クリックした場所のXY座標を取得するために必要
+#define ctype LOWORD(%1) (%1 & $FFFF)
+#define ctype HIWORD(%1) (%1 >> 16 & $FFFF)
+
 // 画像オリジナルの大きさ
 PIC_W = 298
 PIC_H = 284
@@ -19,7 +23,10 @@ dim positions, 13, 13
 gosub *init_positions // positionsを初期化する
 gosub *init_window
 
-y_bar_id = 0 
+prev_ginfo_winy = ICON_H * 3 // 直前の幅の大きさ
+prev_ginfo_winx = ICON_W * 5
+
+y_bar_id = 0
 gosub *putYScrollBar
 
 onclick gosub *windowClicked
@@ -31,7 +38,7 @@ repeat
 	color 255, 255, 255
 	boxf
 	
-	x_num = ginfo_winx / ICON_W
+	x_num = ginfo_winx * 1.0 / ICON_W * 1.0
 	
 	repeat 13
 		pos (cnt \ x_num) * ICON_W, (cnt / x_num) * ICON_H
@@ -39,6 +46,15 @@ repeat
 	loop
 	
 	redraw 1
+	
+	if (prev_ginfo_winy != ginfo_winy || prev_ginfo_winx != ginfo_winx) {
+		gsel y_bar_id
+		clrobj
+		gosub *putYScrollBar
+		groll 0, 0
+	}
+	prev_ginfo_winy = ginfo_winy
+	prev_ginfo_winx = ginfo_winx
 	
 	await 100
 loop
@@ -48,8 +64,8 @@ stop
 
 
 *windowClicked
-	x = mousex / ICON_W
-	y = mousey / ICON_H
+	x = (LOWORD(lparam) + ginfo_vx) / ICON_W
+	y = (HIWORD(lparam) + ginfo_vy) / ICON_H
 	
 	if (x + y * x_num >= 13) {
 		return
@@ -65,7 +81,7 @@ stop
 
 
 *init_window
-	screen 0, ginfo(20), ginfo(21)
+	screen 0, ginfo(20) * 10, ginfo(21) * 10
 
 	GetWindowLong hwnd, -16
 	SetWindowLong hwnd, -16, stat | $10000 | $40000
