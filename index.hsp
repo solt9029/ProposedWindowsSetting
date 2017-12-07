@@ -40,6 +40,10 @@ repeat
 	
 	x_num = ginfo_winx * 1.0 / ICON_W * 1.0
 	
+	if (x_num > 9) {
+		x_num = 9
+	}
+	
 	repeat 9
 		pos (cnt \ x_num) * ICON_W, (cnt / x_num) * ICON_H
 		gzoom ICON_W, ICON_H, positions(x_num - 1, cnt) + 1, 0, 0, PIC_W, PIC_H
